@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JEPI-Style Call Spread Strategy</title>
+<title>Stonk Strats</title>
 <style>
   :root {
     --bg: #0d1117;
     --surface: #161b22;
+    --sidebar: #0d1117;
     --border: #30363d;
     --text: #e6edf3;
     --text-muted: #8b949e;
@@ -23,14 +24,125 @@
     background: var(--bg);
     color: var(--text);
     line-height: 1.6;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2rem 1.5rem;
+    display: flex;
+    min-height: 100vh;
   }
-  h1 { font-size: 2rem; margin-bottom: 0.5rem; }
-  h2 { font-size: 1.5rem; margin: 2.5rem 0 1rem; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
-  h3 { font-size: 1.15rem; margin: 1.5rem 0 0.5rem; }
-  p { margin-bottom: 1rem; }
+
+  /* Sidebar */
+  .sidebar {
+    width: 260px;
+    min-width: 260px;
+    background: var(--sidebar);
+    border-right: 1px solid var(--border);
+    padding: 1.5rem 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    overflow-y: auto;
+    z-index: 100;
+    transition: transform 0.3s ease;
+  }
+  .sidebar-header {
+    padding: 0 1.25rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0.75rem;
+  }
+  .sidebar-header h1 {
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .sidebar-header p {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+  }
+  .nav-section {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 1.25rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: all 0.15s;
+  }
+  .nav-item:hover {
+    color: var(--text);
+    background: rgba(255,255,255,0.03);
+  }
+  .nav-item.active {
+    color: var(--text);
+    background: rgba(88,166,255,0.08);
+    border-left-color: var(--accent);
+  }
+  .nav-item .icon { font-size: 1.1rem; width: 1.4rem; text-align: center; }
+  .nav-item .badge {
+    margin-left: auto;
+    background: rgba(88,166,255,0.15);
+    color: var(--accent);
+    font-size: 0.7rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+
+  /* Content */
+  .content {
+    flex: 1;
+    margin-left: 260px;
+    max-width: 900px;
+    padding: 2rem 2.5rem;
+  }
+
+  /* Mobile hamburger */
+  .hamburger {
+    display: none;
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 200;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.5rem 0.6rem;
+    color: var(--text);
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+  .overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 90;
+  }
+
+  @media (max-width: 768px) {
+    .sidebar { transform: translateX(-100%); }
+    .sidebar.open { transform: translateX(0); }
+    .overlay.open { display: block; }
+    .hamburger { display: block; }
+    .content { margin-left: 0; padding: 3.5rem 1.25rem 2rem; }
+  }
+
+  /* Strategy page content styles */
+  .content h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+  .content h2 { font-size: 1.5rem; margin: 2.5rem 0 1rem; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+  .content h3 { font-size: 1.15rem; margin: 1.5rem 0 0.5rem; }
+  .content p { margin-bottom: 1rem; }
   .subtitle { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem; }
   .callout {
     background: var(--surface);
@@ -83,13 +195,13 @@
   .faq-q { font-weight: 600; margin-top: 1.25rem; }
   .faq-a { color: var(--text-muted); margin-bottom: 1rem; }
   .step-num {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: 2rem; height: 2rem;
     background: var(--accent);
     color: var(--bg);
     border-radius: 50%;
-    text-align: center;
-    line-height: 2rem;
     font-weight: 700;
     font-size: 0.9rem;
     margin-right: 0.75rem;
@@ -131,242 +243,166 @@
   .toc a { color: var(--accent); text-decoration: none; }
   .toc a:hover { text-decoration: underline; }
   a { color: var(--accent); }
-  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
-  @media (max-width: 600px) { .detail-grid { grid-template-columns: 1fr; } }
+
+  /* Home page */
+  .home-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .home-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .home-card h3 { margin: 0 0 0.5rem; font-size: 1.2rem; }
+  .home-card p { margin: 0; color: var(--text-muted); font-size: 0.9rem; }
+  .home-card .stats { display: flex; gap: 1.5rem; margin-top: 0.75rem; font-size: 0.85rem; }
+  .home-card .stat-val { font-weight: 700; }
+  .home-card .stat-val.green { color: var(--green); }
+  .home-card .stat-val.yellow { color: var(--yellow); }
+
+  /* Loading */
+  .loading { color: var(--text-muted); padding: 3rem; text-align: center; }
 </style>
 </head>
 <body>
 
-<h1>📈 JEPI-Style Call Spread Strategy</h1>
-<p class="subtitle">A DIY playbook for weekly income using SPY call spreads — backed by 2 years of real options data.</p>
+<button class="hamburger" onclick="toggleSidebar()">☰</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-<div class="toc">
-  <strong>Contents</strong>
-  <ul>
-    <li><a href="#concept">The Concept</a></li>
-    <li><a href="#trade-shape">The Trade Shape</a></li>
-    <li><a href="#playbook">Friday Playbook</a></li>
-    <li><a href="#settings">Which Settings?</a></li>
-    <li><a href="#faq">Common Questions</a></li>
-    <li><a href="#results">Backtest Results</a></li>
-    <li><a href="#findings">Key Findings</a></li>
-    <li><a href="#vs-jepi">vs Buying JEPI/JEPQ</a></li>
-  </ul>
-</div>
-
-<!-- WHAT YOU NEED -->
-<h2>What You Need</h2>
-<ul>
-  <li><strong>100 shares of SPY</strong> (or QQQ for a JEPQ clone) — about $50-60K at current prices</li>
-  <li><strong>Options approval level 2+</strong> (ability to sell spreads — most brokers: Schwab, Fidelity, IBKR)</li>
-  <li><strong>15 minutes every Friday afternoon</strong></li>
-  <li>A basic understanding of limit orders</li>
-</ul>
-
-<!-- THE CONCEPT -->
-<h2 id="concept">The Concept (Plain English)</h2>
-<p>You own shares of SPY. Every week, you sell someone the right to buy your shares at a higher price. They pay you cash (the <strong>"premium"</strong>) for that right. If SPY doesn't reach that price by expiration, you keep the premium and your shares. Free money.</p>
-<p>The catch: if SPY rallies past your sold strike, you'd owe the difference — that's where the <strong>"long call"</strong> leg comes in. You also buy a call at an even higher strike, which caps your maximum loss on the options side. This creates a <strong>"call spread."</strong></p>
-<p>Net result: you collect steady weekly income in exchange for capping your upside during big rally weeks. Over time, the income more than compensates for the capped gains — especially in choppy or flat markets.</p>
-
-<div class="callout green">
-  <div class="label">TL;DR</div>
-  You're renting out the upside of your shares each week. Most weeks, nobody claims it and you pocket the rent. When they do, you still keep the rent — you just miss some of the rally.
-</div>
-
-<!-- THE TRADE SHAPE -->
-<h2 id="trade-shape">The Trade Shape</h2>
-<pre><code>Example: SPY at $500 on Friday
-
-You sell: 1x SPY $510 call (2% OTM)  → collect $3.50
-You buy:  1x SPY $535 call (7% OTM)  → pay    $1.00
-                                        ─────────────
-Net credit received:                    $2.50 × 100 = $250
-
-Both expire next Friday.</code></pre>
-
-<h3>What Happens at Expiration</h3>
-<table>
-  <thead>
-    <tr><th>SPY closes at...</th><th>Spread P&L</th><th>What happens</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>$500 (flat)</td><td style="color:var(--green)">+$250</td><td>Both expire worthless ✓</td></tr>
-    <tr><td>$505 (+1%)</td><td style="color:var(--green)">+$250</td><td>Both expire worthless ✓</td></tr>
-    <tr><td>$510 (+2%)</td><td style="color:var(--green)">+$250</td><td>Right at short strike ✓</td></tr>
-    <tr><td>$515 (+3%)</td><td style="color:var(--red)">-$250</td><td>Short call ITM, net loss</td></tr>
-    <tr><td>$520 (+4%)</td><td style="color:var(--red)">-$750</td><td>Deeper ITM, bigger loss</td></tr>
-    <tr><td>$535+ (+7%+)</td><td style="color:var(--red)">-$2,250 max</td><td>Both ITM, loss is capped</td></tr>
-  </tbody>
-</table>
-
-<div class="callout yellow">
-  <div class="label">Important</div>
-  Remember — you also own 100 shares of SPY. If SPY goes to $520, your shares gained $2,000. The spread lost $750. Net: you're still up $1,250 + $250 credit = <strong>$1,500</strong>. You only "lose" relative to buy-and-hold in massive rally weeks.
-</div>
-
-<!-- FRIDAY PLAYBOOK -->
-<h2 id="playbook">Friday Playbook</h2>
-
-<div class="step">
-  <span class="step-num">1</span>
-  <div class="step-content">
-    <h3>Check last week's spread</h3>
-    <p>Log into your broker around 3:00-3:30 PM ET. Your spread from last week should have expired. If SPY stayed below your short strike, the full credit is yours. If it went above, the loss was automatically settled. Either way, the position is closed.</p>
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h1>📈 Stonk Strats</h1>
+    <p>Options strategy playbooks & backtests</p>
   </div>
-</div>
 
-<div class="step">
-  <span class="step-num">2</span>
-  <div class="step-content">
-    <h3>Note SPY's current price</h3>
-    <p>Example: SPY is at $502.</p>
-  </div>
-</div>
+  <div class="nav-section">Strategies</div>
+  <a class="nav-item" data-page="home" onclick="navigate('home')">
+    <span class="icon">🏠</span> Home
+  </a>
+  <a class="nav-item" data-page="call-spread" onclick="navigate('call-spread')">
+    <span class="icon">📊</span> JEPI Call Spread
+    <span class="badge">SPY</span>
+  </a>
 
-<div class="step">
-  <span class="step-num">3</span>
-  <div class="step-content">
-    <h3>Calculate your strikes</h3>
-    <p><strong>Short call:</strong> current price × 1.02 (2% above) = <strong>$512</strong><br>
-    <strong>Long call:</strong> current price × 1.09 (2% + 7% width) = <strong>$547</strong><br>
-    Round to the nearest available strike on the chain.</p>
-  </div>
-</div>
+  <div class="nav-section" style="margin-top:1.5rem">Coming Soon</div>
+  <a class="nav-item" style="opacity:0.4; pointer-events:none">
+    <span class="icon">🎡</span> The Wheel
+  </a>
+  <a class="nav-item" style="opacity:0.4; pointer-events:none">
+    <span class="icon">📉</span> RSI-Gated CC
+  </a>
+  <a class="nav-item" style="opacity:0.4; pointer-events:none">
+    <span class="icon">🔀</span> Dual-Zone CC
+  </a>
+</nav>
 
-<div class="step">
-  <span class="step-num">4</span>
-  <div class="step-content">
-    <h3>Open the spread</h3>
-    <p>In your broker's options chain, select <strong>next Friday's expiration</strong>.</p>
-    <ul>
-      <li><strong>SELL</strong> 1x $512 call</li>
-      <li><strong>BUY</strong> 1x $547 call</li>
-    </ul>
-    <p>Enter this as a single <strong>"vertical spread"</strong> order. Set it as a limit order at the mid-price or slightly below.</p>
-  </div>
-</div>
+<main class="content" id="content">
+  <div class="loading">Loading...</div>
+</main>
 
-<div class="step">
-  <span class="step-num">5</span>
-  <div class="step-content">
-    <h3>Confirm and done</h3>
-    <p>Your order fills. You see a credit hit your account (typically $150-$400 depending on volatility). Set a calendar reminder for next Friday. <strong>That's it — 15 minutes.</strong></p>
-  </div>
-</div>
+<script>
+const pages = {};
 
-<!-- WHICH SETTINGS -->
-<h2 id="settings">Which Settings Should I Use?</h2>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
 
-<div class="settings-grid">
-  <div class="setting-card aggressive">
-    <h4>🔥 Aggressive</h4>
-    <div class="yield">~55%/yr</div>
-    <p>Short call: <strong>1% OTM</strong><br>Spread width: <strong>5-7%</strong></p>
-    <p style="color:var(--text-muted); font-size:0.85rem">Max income, caps most rallies. You'll be ITM ~27% of weeks. More aggressive than JEPI.</p>
-  </div>
-  <div class="setting-card balanced">
-    <h4>⚖️ Balanced <span class="tag rec">Recommended</span></h4>
-    <div class="yield">~26%/yr</div>
-    <p>Short call: <strong>2% OTM</strong><br>Spread width: <strong>5-7%</strong></p>
-    <p style="color:var(--text-muted); font-size:0.85rem">The JEPI sweet spot. Strong income with reasonable upside. ITM ~9% of weeks.</p>
-  </div>
-  <div class="setting-card conservative">
-    <h4>🛡️ Conservative</h4>
-    <div class="yield">~10%/yr</div>
-    <p>Short call: <strong>3% OTM</strong><br>Spread width: <strong>5-7%</strong></p>
-    <p style="color:var(--text-muted); font-size:0.85rem">Light income, keeps most upside. Matches actual JEPI distribution rate. ITM ~6% of weeks.</p>
-  </div>
-</div>
+function navigate(page) {
+  // Update URL hash
+  history.pushState(null, '', page === 'home' ? '#' : '#' + page);
+  loadPage(page);
+  // Close mobile sidebar
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
 
-<div class="callout">
-  <div class="label">Start here</div>
-  Go with <strong>Balanced (2% OTM, 5% width)</strong>. You can always adjust after a few weeks once you see how it feels.
-</div>
+async function loadPage(page) {
+  const content = document.getElementById('content');
+  
+  // Update active nav
+  document.querySelectorAll('.nav-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.page === page);
+  });
 
-<!-- FAQ -->
-<h2 id="faq">Common Questions</h2>
+  if (page === 'home') {
+    content.innerHTML = getHomePage();
+    return;
+  }
 
-<p class="faq-q">What if I forget a Friday?</p>
-<p class="faq-a">No big deal. Your old spread expires and you just don't have one on for a week. You miss one week of premium but nothing bad happens.</p>
+  // Load from cache or fetch
+  if (pages[page]) {
+    content.innerHTML = pages[page];
+    window.scrollTo(0, 0);
+    return;
+  }
 
-<p class="faq-q">What if SPY crashes?</p>
-<p class="faq-a">Your shares lose value (same as buy-and-hold), but the spread expires worthless so you keep the premium. The income cushions the fall — in the backtest, max drawdown was <strong>-12%</strong> with 2% OTM vs <strong>-18%</strong> buy-and-hold.</p>
+  content.innerHTML = '<div class="loading">Loading strategy...</div>';
 
-<p class="faq-q">What if SPY moons?</p>
-<p class="faq-a">You participate in the rally up to your short strike. Above that, the spread costs you — but your shares are still gaining. You underperform buy-and-hold that week. Next week you sell a new spread at the higher price.</p>
+  try {
+    const resp = await fetch('strategies/' + page + '.html');
+    if (!resp.ok) throw new Error('Not found');
+    const html = await resp.text();
+    pages[page] = html;
+    content.innerHTML = html;
+    window.scrollTo(0, 0);
+  } catch (e) {
+    content.innerHTML = '<div class="loading">Strategy not found.</div>';
+  }
+}
 
-<p class="faq-q">Can I do this in an IRA?</p>
-<p class="faq-a">Yes. Most IRAs allow vertical spreads (level 2 options). The income stays tax-deferred.</p>
+function getHomePage() {
+  return `
+    <h1>📈 Stonk Strats</h1>
+    <p class="subtitle">Options strategy playbooks backed by real market data. Pick a strategy to see the full breakdown.</p>
 
-<p class="faq-q">How is this different from buying JEPI?</p>
-<p class="faq-a">Same concept, but: (1) you pay zero management fees vs 0.35%/yr, (2) SPX options get better tax treatment (60% LTCG vs ordinary income), (3) you control the aggressiveness. JEPI is set-and-forget; this is 15 min/week.</p>
+    <div class="home-card" onclick="navigate('call-spread')">
+      <h3>📊 JEPI-Style Call Spread</h3>
+      <p>Own shares + sell weekly OTM call spreads. Replicates JEPI/JEPQ income strategy with better tax treatment and zero fees.</p>
+      <div class="stats">
+        <div><span class="stat-val green">+78.5%</span><br>2yr return (balanced)</div>
+        <div><span class="stat-val green">26.1%</span><br>ann. premium yield</div>
+        <div><span class="stat-val yellow">-12.0%</span><br>max drawdown</div>
+        <div><span class="stat-val">vs +41.2%</span><br>buy & hold</div>
+      </div>
+    </div>
 
-<p class="faq-q">What if I don't have $50K for 100 shares?</p>
-<p class="faq-a">You can use a "poor man's" version: buy a deep ITM LEAPS call instead of shares, then sell weekly spreads against it. Same mechanics, less capital. Or just buy JEPI/JEPQ — the whole point of this strategy is DIY at scale.</p>
+    <div class="home-card" style="opacity:0.5; cursor:default">
+      <h3>🎡 The Wheel</h3>
+      <p>Sell puts until assigned, then sell calls until called away. Systematic income on stocks you want to own.</p>
+      <div class="stats"><div style="color:var(--text-muted)">Coming soon</div></div>
+    </div>
 
-<p class="faq-q">Can I do this on QQQ instead?</p>
-<p class="faq-a">Yes — same playbook, higher premiums (QQQ is more volatile), more income but wider swings. That's the JEPQ clone.</p>
+    <div class="home-card" style="opacity:0.5; cursor:default">
+      <h3>📉 RSI-Gated Covered Calls</h3>
+      <p>Only sell calls when RSI signals weakness. Preserves upside during momentum runs.</p>
+      <div class="stats"><div style="color:var(--text-muted)">Coming soon</div></div>
+    </div>
 
-<!-- BACKTEST RESULTS -->
-<h2 id="results">📊 Backtest Results</h2>
-<p>2 years of <strong>real SPY option prices</strong> (501 trading days, Feb 2024 — Feb 2026). These are prices options actually traded at, not simulated.</p>
+    <div class="home-card" style="opacity:0.5; cursor:default">
+      <h3>🔀 Dual-Zone Covered Calls</h3>
+      <p>ITM calls when bearish, OTM when neutral, nothing when bullish. Adaptive income strategy.</p>
+      <div class="stats"><div style="color:var(--text-muted)">Coming soon</div></div>
+    </div>
 
-<img src="images/SPY_call_spread_heatmap.png" alt="Parameter sweep heatmap">
-<img src="images/SPY_call_spread_comparison.png" alt="Equity curve comparison">
+    <footer>
+      <p>All backtests use real historical option prices from Polygon. Not financial advice — model it before you trade it.</p>
+    </footer>
+  `;
+}
 
-<h3>All Configurations</h3>
-<table>
-  <thead>
-    <tr><th>OTM %</th><th>Width</th><th>Return</th><th>Ann. Yield</th><th>Max DD</th><th>Premium</th><th>ITM/Sold</th></tr>
-  </thead>
-  <tbody>
-    <tr class="best"><td>1%</td><td>5%</td><td>+113.9%</td><td>54.6%</td><td>-8.0%</td><td>$52,980</td><td>27/101</td></tr>
-    <tr class="best"><td>1%</td><td>7%</td><td>+113.8%</td><td>55.1%</td><td>-7.9%</td><td>$53,443</td><td>27/101</td></tr>
-    <tr class="best"><td>1%</td><td>3%</td><td>+108.9%</td><td>51.6%</td><td>-8.7%</td><td>$50,015</td><td>27/101</td></tr>
-    <tr><td>2%</td><td>5%</td><td>+78.5%</td><td>26.1%</td><td>-12.0%</td><td>$25,268</td><td>9/101</td></tr>
-    <tr><td>2%</td><td>7%</td><td>+78.2%</td><td>26.3%</td><td>-11.9%</td><td>$25,521</td><td>9/101</td></tr>
-    <tr><td>2%</td><td>3%</td><td>+76.2%</td><td>24.9%</td><td>-12.3%</td><td>$24,189</td><td>9/101</td></tr>
-    <tr><td>3%</td><td>7%</td><td>+56.0%</td><td>10.5%</td><td>-15.3%</td><td>$10,201</td><td>6/100</td></tr>
-    <tr><td>3%</td><td>5%</td><td>+55.7%</td><td>10.4%</td><td>-15.4%</td><td>$10,049</td><td>6/98</td></tr>
-    <tr><td>3%</td><td>3%</td><td>+55.1%</td><td>9.9%</td><td>-15.6%</td><td>$9,586</td><td>6/99</td></tr>
-    <tr><td>5%</td><td>7%</td><td>+44.2%</td><td>1.5%</td><td>-18.0%</td><td>$1,458</td><td>0/76</td></tr>
-    <tr><td>5%</td><td>5%</td><td>+44.1%</td><td>1.4%</td><td>-18.0%</td><td>$1,397</td><td>0/76</td></tr>
-    <tr><td>5%</td><td>3%</td><td>+43.8%</td><td>1.3%</td><td>-18.1%</td><td>$1,249</td><td>0/70</td></tr>
-    <tr style="color:var(--text-muted)"><td>B&H</td><td>—</td><td>+41.2%</td><td>—</td><td>-18.1%</td><td>—</td><td>—</td></tr>
-  </tbody>
-</table>
+// Route on load
+const hash = location.hash.replace('#', '') || 'home';
+loadPage(hash);
 
-<!-- FINDINGS -->
-<h2 id="findings">Key Findings</h2>
-<ul>
-  <li><strong>OTM distance is the dominant driver</strong> — spread width barely matters (±2% total return within each OTM tier)</li>
-  <li><strong>1% OTM:</strong> ~55% ann. yield, 3x buy-and-hold, but 27/101 weeks ITM (heavy upside cap). More aggressive than JEPI.</li>
-  <li><strong>2% OTM:</strong> ~26% ann. yield, ~2x buy-and-hold. The JEPI sweet spot — strong income with reasonable upside.</li>
-  <li><strong>3% OTM:</strong> ~10% ann. yield — matches actual JEPI distribution rate. Less income, more upside preservation.</li>
-  <li><strong>5% OTM:</strong> ~1.5% yield — barely worth the effort. Tracks buy-and-hold.</li>
-  <li><strong>Max drawdown improves with tighter OTM</strong> (premium cushion): -8% at 1% OTM vs -18% buy-and-hold.</li>
-  <li><strong>Tax advantage:</strong> SPX index options get Section 1256 (60% LTCG / 40% STCG) — saves ~$5K/yr on a $500K portfolio vs JEPI's ordinary income distributions.</li>
-</ul>
-
-<!-- VS JEPI -->
-<h2 id="vs-jepi">vs Buying JEPI/JEPQ</h2>
-<table>
-  <thead><tr><th></th><th>DIY Call Spreads</th><th>JEPI/JEPQ</th></tr></thead>
-  <tbody>
-    <tr><td><strong>Annual fees</strong></td><td>~$0 (commissions only)</td><td>0.35% ($1,750/yr on $500K)</td></tr>
-    <tr><td><strong>Tax treatment</strong></td><td>60/40 LTCG/STCG (Section 1256)</td><td>Ordinary income</td></tr>
-    <tr><td><strong>Flexibility</strong></td><td>Adjust strikes, width, timing</td><td>Fixed systematic strategy</td></tr>
-    <tr><td><strong>Transparency</strong></td><td>You see every trade</td><td>ELNs — opaque OTC pricing</td></tr>
-    <tr><td><strong>Upside capture</strong></td><td>You control the dial</td><td>~60-70% fixed</td></tr>
-    <tr><td><strong>Effort</strong></td><td>15 min/week on Fridays</td><td>Zero</td></tr>
-    <tr><td><strong>Min investment</strong></td><td>~$50K (100 shares SPY)</td><td>Any amount</td></tr>
-  </tbody>
-</table>
-
-<footer>
-  <p>Generated March 2, 2026 · Backtested with 2 years of real Polygon options data (501 trading days) · Not financial advice — model it before you trade it.</p>
-</footer>
+// Handle back/forward
+window.addEventListener('popstate', () => {
+  const h = location.hash.replace('#', '') || 'home';
+  loadPage(h);
+});
+</script>
 
 </body>
 </html>
