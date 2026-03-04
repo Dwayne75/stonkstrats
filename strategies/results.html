@@ -19,16 +19,16 @@
 </div>
 
 <h2 id="summary">Cross-Ticker Summary — Balanced Settings (2% OTM / 5% Width)</h2>
-<p>The "JEPI sweet spot" config applied to every ticker. Sorted by alpha over buy-and-hold.</p>
+<p>The "JEPI sweet spot" config applied to every ticker. Returns are <strong>annualized (CAGR)</strong> over 2 years of real options data. Sorted by alpha over buy-and-hold.</p>
 
 <table>
   <thead>
     <tr>
       <th>Ticker</th>
-      <th>Strategy Return</th>
-      <th>Buy & Hold</th>
-      <th>Alpha</th>
-      <th>Ann. Yield</th>
+      <th>Ann. Return</th>
+      <th>B&H Ann.</th>
+      <th>Alpha/yr</th>
+      <th>Premium Yield</th>
       <th>Max DD (Strat)</th>
       <th>Max DD (B&H)</th>
       <th>DD Improvement</th>
@@ -39,9 +39,9 @@
   <tbody>
     <tr>
       <td><strong>SPY</strong></td>
-      <td style="color:var(--green)">+78.5%</td>
-      <td>+41.2%</td>
-      <td style="color:var(--green)"><strong>+37.3%</strong></td>
+      <td style="color:var(--green)">+33.8%/yr</td>
+      <td>+19.0%/yr</td>
+      <td style="color:var(--green)"><strong>+14.9%</strong></td>
       <td>26.1%</td>
       <td>-12.0%</td>
       <td>-18.8%</td>
@@ -51,10 +51,10 @@
     </tr>
     <tr>
       <td><strong>MSFT</strong></td>
-      <td style="color:var(--green)">+31.8%</td>
-      <td>+0.2%</td>
-      <td style="color:var(--green)"><strong>+31.6%</strong></td>
-      <td>34.1%</td>
+      <td style="color:var(--green)">+14.9%/yr</td>
+      <td>+0.1%/yr</td>
+      <td style="color:var(--green)"><strong>+14.8%</strong></td>
+      <td>34.0%</td>
       <td>-17.5%</td>
       <td>-27.2%</td>
       <td style="color:var(--green)">9.7%</td>
@@ -63,9 +63,9 @@
     </tr>
     <tr>
       <td><strong>AMZN</strong></td>
-      <td style="color:var(--green)">+44.8%</td>
-      <td>+22.6%</td>
-      <td style="color:var(--green)"><strong>+22.2%</strong></td>
+      <td style="color:var(--green)">+20.5%/yr</td>
+      <td>+10.8%/yr</td>
+      <td style="color:var(--green)"><strong>+9.7%</strong></td>
       <td>43.5%</td>
       <td>-24.1%</td>
       <td>-30.9%</td>
@@ -75,9 +75,9 @@
     </tr>
     <tr>
       <td><strong>AAPL</strong></td>
-      <td style="color:var(--green)">+62.9%</td>
-      <td>+44.8%</td>
-      <td style="color:var(--green)"><strong>+18.1%</strong></td>
+      <td style="color:var(--green)">+27.8%/yr</td>
+      <td>+20.5%/yr</td>
+      <td style="color:var(--green)"><strong>+7.3%</strong></td>
       <td>41.1%</td>
       <td>-29.4%</td>
       <td>-33.4%</td>
@@ -87,9 +87,9 @@
     </tr>
     <tr>
       <td><strong>GOOGL</strong></td>
-      <td style="color:var(--green)">+133.7%</td>
-      <td>+116.2%</td>
-      <td style="color:var(--green)"><strong>+17.4%</strong></td>
+      <td style="color:var(--green)">+53.2%/yr</td>
+      <td>+47.4%/yr</td>
+      <td style="color:var(--green)"><strong>+5.9%</strong></td>
       <td>55.6%</td>
       <td>-19.8%</td>
       <td>-29.8%</td>
@@ -99,9 +99,9 @@
     </tr>
     <tr>
       <td><strong>TSLA</strong></td>
-      <td style="color:var(--green)">+121.6%</td>
-      <td>+112.5%</td>
-      <td style="color:var(--green)"><strong>+9.1%</strong></td>
+      <td style="color:var(--green)">+49.2%/yr</td>
+      <td>+46.1%/yr</td>
+      <td style="color:var(--green)"><strong>+3.1%</strong></td>
       <td>101.6%</td>
       <td>-53.5%</td>
       <td>-53.8%</td>
@@ -111,9 +111,9 @@
     </tr>
     <tr>
       <td><strong>META</strong></td>
-      <td style="color:var(--green)">+38.9%</td>
-      <td>+37.6%</td>
-      <td style="color:var(--green)"><strong>+1.3%</strong></td>
+      <td style="color:var(--green)">+18.0%/yr</td>
+      <td>+17.4%/yr</td>
+      <td style="color:var(--green)"><strong>+0.6%</strong></td>
       <td>55.5%</td>
       <td>-29.8%</td>
       <td>-34.2%</td>
@@ -123,9 +123,9 @@
     </tr>
     <tr>
       <td><strong>NVDA</strong></td>
-      <td style="color:var(--red)">+169.0%</td>
-      <td>+170.7%</td>
-      <td style="color:var(--red)"><strong>-1.7%</strong></td>
+      <td style="color:var(--red)">+64.5%/yr</td>
+      <td>+65.0%/yr</td>
+      <td style="color:var(--red)"><strong>-0.5%</strong></td>
       <td>111.3%</td>
       <td>-34.8%</td>
       <td>-36.9%</td>
@@ -135,9 +135,9 @@
     </tr>
     <tr>
       <td><strong>PLTR</strong></td>
-      <td style="color:var(--red)">+470.8%</td>
-      <td>+476.5%</td>
-      <td style="color:var(--red)"><strong>-5.6%</strong></td>
+      <td style="color:var(--red)">+140.2%/yr</td>
+      <td>+141.4%/yr</td>
+      <td style="color:var(--red)"><strong>-1.2%</strong></td>
       <td>269.0%</td>
       <td>-35.9%</td>
       <td>-40.6%</td>
@@ -152,17 +152,17 @@
 
 <div class="callout green">
   <div class="label">Winners</div>
-  <strong>SPY (+37.3% alpha), MSFT (+31.6%), AMZN (+22.2%)</strong> — the strategy crushed buy-and-hold. These are the ideal candidates: moderate IV, not parabolic runners. MSFT was flat for 2 years and the spread turned it into a +31.8% return.
+  <strong>SPY (+14.9%/yr alpha), MSFT (+14.8%/yr), AMZN (+9.7%/yr)</strong> — the strategy crushed buy-and-hold. These are the ideal candidates: moderate IV, not parabolic runners. MSFT was flat for 2 years and the spread turned it into +14.9%/yr.
 </div>
 
 <div class="callout yellow">
   <div class="label">Solid</div>
-  <strong>AAPL (+18.1%), GOOGL (+17.4%), TSLA (+9.1%)</strong> — beat buy-and-hold with better drawdowns. GOOGL stands out: +10% DD improvement. TSLA's massive IV generates huge premiums ($39K) even at 2% OTM.
+  <strong>AAPL (+7.3%/yr), GOOGL (+5.9%/yr), TSLA (+3.1%/yr)</strong> — beat buy-and-hold with better drawdowns. GOOGL stands out: +10% DD improvement. TSLA's massive IV generates huge premiums ($39K) even at 2% OTM.
 </div>
 
 <div class="callout">
   <div class="label">Wash / Lag</div>
-  <strong>META (+1.3%), NVDA (-1.7%), PLTR (-5.6%)</strong> — parabolic runners where the upside cap costs you. But note: even PLTR only lagged by 5.6% while collecting $12.6K in premium and improving max DD by 4.7%. The strategy doesn't blow up on runners — it just underperforms slightly.
+  <strong>META (+0.6%/yr), NVDA (-0.5%/yr), PLTR (-1.2%/yr)</strong> — parabolic runners where the upside cap costs you. But note: even PLTR only lagged by 1.2%/yr while collecting $12.6K in premium and improving max DD by 4.7%. The strategy doesn't blow up on runners — it just slightly underperforms.
 </div>
 
 <h3>Patterns</h3>
@@ -190,71 +190,71 @@
 <h2 id="SPY">SPY — S&P 500 ETF</h2>
 <div class="callout green">
   <div class="label">Best Candidate</div>
-  +37.3% alpha over buy-and-hold. Only 9/101 weeks ITM at balanced settings. Max DD improved from -18.8% to -12.0%. This is what the strategy was built for.
+  +14.9%/yr alpha over buy-and-hold (33.8%/yr vs 19.0%/yr). Only 9/101 weeks ITM at balanced settings. Max DD improved from -18.8% to -12.0%. This is what the strategy was built for.
 </div>
 <img src="../images/SPY_call_spread_heatmap.png" alt="SPY heatmap">
 <img src="../images/SPY_call_spread_comparison.png" alt="SPY comparison">
 
 <h2 id="AAPL">AAPL — Apple</h2>
 <div class="callout green">
-  <div class="label">+18.1% Alpha</div>
-  Strong performer. Higher IV than SPY → fatter premiums (41.1% ann yield). ITM 28/101 weeks — more assignments but still net positive.
+  <div class="label">+7.3%/yr Alpha</div>
+  Strong performer (27.8%/yr vs 20.5%/yr B&H). Higher IV than SPY → fatter premiums (41.1% ann yield). ITM 28/101 weeks — more assignments but still net positive.
 </div>
 <img src="../images/AAPL_call_spread_heatmap.png" alt="AAPL heatmap">
 <img src="../images/AAPL_call_spread_comparison.png" alt="AAPL comparison">
 
 <h2 id="MSFT">MSFT — Microsoft</h2>
 <div class="callout green">
-  <div class="label">+31.6% Alpha — Star Performer</div>
-  MSFT was flat for 2 years (+0.2% buy-and-hold). The call spread turned that into +31.8% by grinding premium every week. This is the strategy's ideal scenario — choppy/range-bound stocks.
+  <div class="label">+14.8%/yr Alpha — Star Performer</div>
+  MSFT was flat for 2 years (+0.1%/yr B&H). The call spread turned that into +14.9%/yr by grinding premium every week. This is the strategy's ideal scenario — choppy/range-bound stocks.
 </div>
 <img src="../images/MSFT_call_spread_heatmap.png" alt="MSFT heatmap">
 <img src="../images/MSFT_call_spread_comparison.png" alt="MSFT comparison">
 
 <h2 id="GOOGL">GOOGL — Alphabet</h2>
 <div class="callout green">
-  <div class="label">+17.4% Alpha, Best DD Improvement</div>
-  GOOGL had a massive run (+116%) but the strategy still added alpha. Standout: max DD improved by 10 full points (-19.8% vs -29.8%). Premium yield 55.6%.
+  <div class="label">+5.9%/yr Alpha, Best DD Improvement</div>
+  GOOGL had a massive run (+47.4%/yr) but the strategy still added alpha (53.2%/yr). Standout: max DD improved by 10 full points (-19.8% vs -29.8%). Premium yield 55.6%.
 </div>
 <img src="../images/GOOGL_call_spread_heatmap.png" alt="GOOGL heatmap">
 <img src="../images/GOOGL_call_spread_comparison.png" alt="GOOGL comparison">
 
 <h2 id="AMZN">AMZN — Amazon</h2>
 <div class="callout green">
-  <div class="label">+22.2% Alpha</div>
-  Doubled buy-and-hold's return. AMZN's moderate moves play perfectly into the spread — enough IV for premium, not so much that you're constantly ITM.
+  <div class="label">+9.7%/yr Alpha</div>
+  Nearly doubled buy-and-hold's annual return (20.5%/yr vs 10.8%/yr). AMZN's moderate moves play perfectly into the spread — enough IV for premium, not so much that you're constantly ITM.
 </div>
 <img src="../images/AMZN_call_spread_heatmap.png" alt="AMZN heatmap">
 <img src="../images/AMZN_call_spread_comparison.png" alt="AMZN comparison">
 
 <h2 id="META">META — Meta Platforms</h2>
 <div class="callout yellow">
-  <div class="label">+1.3% Alpha — Wash</div>
-  Nearly flat vs buy-and-hold. META's choppy sell-offs eat into the premium gains. Huge premiums ($52K collected) but high ITM rate (32/101) gives most of it back. Interesting: best config is actually 5% OTM — wider is better for META's sharp moves.
+  <div class="label">+0.6%/yr Alpha — Wash</div>
+  Nearly flat vs buy-and-hold (18.0%/yr vs 17.4%/yr). META's choppy sell-offs eat into the premium gains. Huge premiums ($52K collected) but high ITM rate (32/101) gives most of it back. Interesting: best config is actually 5% OTM — wider is better for META's sharp moves.
 </div>
 <img src="../images/META_call_spread_heatmap.png" alt="META heatmap">
 <img src="../images/META_call_spread_comparison.png" alt="META comparison">
 
 <h2 id="NVDA">NVDA — NVIDIA</h2>
 <div class="callout yellow">
-  <div class="label">-1.7% vs B&H — Slight Lag</div>
-  NVDA nearly tripled (+170.7%) — hard to beat a rocket ship by selling upside. But the strategy only lagged 1.7% while collecting $15.5K in premium and shaving 2.1% off max DD. Best config: 3% OTM (wider gives more room for NVDA's explosive moves).
+  <div class="label">-0.5%/yr vs B&H — Essentially Flat</div>
+  NVDA returned +65.0%/yr — hard to beat a rocket ship by selling upside. But the strategy only lagged 0.5%/yr (64.5%/yr) while collecting $15.5K in premium and shaving 2.1% off max DD. Best config: 3% OTM (wider gives more room for NVDA's explosive moves).
 </div>
 <img src="../images/NVDA_call_spread_heatmap.png" alt="NVDA heatmap">
 <img src="../images/NVDA_call_spread_comparison.png" alt="NVDA comparison">
 
 <h2 id="TSLA">TSLA — Tesla</h2>
 <div class="callout yellow">
-  <div class="label">+9.1% Alpha — Wild Ride</div>
-  TSLA's insane IV means 101.6% annualized premium yield at just 2% OTM. But the -53.5% max drawdown tells you this is a volatile underlying. $39K premium collected — more than any other ticker. Works, but buckle up.
+  <div class="label">+3.1%/yr Alpha — Wild Ride</div>
+  49.2%/yr vs 46.1%/yr B&H. TSLA's insane IV means 101.6% annualized premium yield at just 2% OTM. But the -53.5% max drawdown tells you this is a volatile underlying. $39K premium collected — more than any other ticker. Works, but buckle up.
 </div>
 <img src="../images/TSLA_call_spread_heatmap.png" alt="TSLA heatmap">
 <img src="../images/TSLA_call_spread_comparison.png" alt="TSLA comparison">
 
 <h2 id="PLTR">PLTR — Palantir</h2>
 <div class="callout">
-  <div class="label">-5.6% vs B&H — Parabolic Runner</div>
-  PLTR went +476% in 2 years. Selling any upside at all costs you — the balanced config lagged 5.6%. But even here: 269% annualized premium yield (!), DD improved 4.7%. Best config: 5% OTM / 7% width — give the rocket room. If you'd known PLTR was going 5x, you wouldn't sell calls on it. The point is: even on extreme runners, the strategy doesn't break — it just slightly underperforms.
+  <div class="label">-1.2%/yr vs B&H — Parabolic Runner</div>
+  PLTR returned +141.4%/yr B&H. Selling any upside at all costs you — the balanced config did +140.2%/yr, lagging just 1.2%/yr. 269% annualized premium yield (!), DD improved 4.7%. Best config: 5% OTM / 7% width — give the rocket room. If you'd known PLTR was going 5x, you wouldn't sell calls on it. The point is: even on extreme runners, the strategy doesn't break — it essentially matches.
 </div>
 <img src="../images/PLTR_call_spread_heatmap.png" alt="PLTR heatmap">
 <img src="../images/PLTR_call_spread_comparison.png" alt="PLTR comparison">
